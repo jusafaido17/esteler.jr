@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🍧 Es Teler Seger</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+:root{
+  --bg:#ffffff;
+
+  --green1:#14532d;
+  --green2:#22c55e;
+  --greenSoft:#dcfce7;
+
+  --orange1:#ea580c;
+  --orange2:#fb923c;
+
+  --text:#14532d;
+}
+
+body{
+  margin:0;
+  font-family:Poppins;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* NAVBAR */
+.nav{
+  position:sticky;
+  top:0;
+  background:linear-gradient(90deg,var(--green1),var(--green2));
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 20px;
+}
+
+.nav ul{
+  display:flex;
+  gap:20px;
+  list-style:none;
+}
+
+.nav a{
+  color:white;
+  text-decoration:none;
+}
+
+.nav a:hover{
+  opacity:.8;
+}
+
+/* BADGE */
+.cart-badge{
+  background:var(--orange1);
+  border-radius:50%;
+  padding:2px 6px;
+  font-size:12px;
+  margin-left:5px;
+}
+
+/* BUTTON */
+.btn{
+  background:linear-gradient(90deg,var(--orange1),var(--orange2));
+  border:none;
+  color:white;
+  padding:10px 16px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:600;
+  transition:all .3s ease;
+}
+
+/* HOVER BUTTON */
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 8px 18px rgba(234,88,12,.35);
+}
+
+/* CLICK BUTTON */
+.btn:active{
+  transform:scale(0.95);
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:80px;
+  color:white;
+
+  background:
+    linear-gradient(rgba(20,83,45,.75), rgba(34,197,94,.75)),
+    url('img/bg-buah.png');
+
+  background-size:cover;
+  background-position:center;
+}
+
+/* CONTAINER */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+}
+
+/* MENU GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+/* CARD */
+.card{
+  background:white;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 4px 10px rgba(0,0,0,.05);
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 12px 25px rgba(0,0,0,.1);
+}
+
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+}
+
+.card-content{
+  padding:15px;
+}
+
+.price{
+  color:var(--green2);
+  font-weight:bold;
+}
+
+/* ABOUT */
+.about{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+
+.about div{
+  background:var(--greenSoft);
+  padding:15px;
+  border-radius:10px;
+}
+
+/* CART */
+.cart-panel{
+  position:fixed;
+  right:-350px;
+  top:0;
+  width:300px;
+  height:100%;
+  background:white;
+  box-shadow:-5px 0 15px rgba(0,0,0,.15);
+  transition:.3s;
+  padding:20px;
+  overflow:auto;
+}
+
+.cart-panel.active{
+  right:0;
+}
+
+.cart-item{
+  background:var(--greenSoft);
+  padding:10px;
+  margin-bottom:10px;
+  border-radius:8px;
+}
+
+.card img{
+  transition:.3s;
+}
+
+.card:hover img{
+  transform:scale(1.05);
+}
+
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+}
+
+/* FLOAT WA */
+.wa-container{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+}
+
+.wa-float{
+  width:60px;
+  height:60px;
+  background:var(--green2);
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:30px;
+  background:var(--green1);
+  color:white;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .grid{grid-template-columns:1fr}
+  .about{grid-template-columns:1fr}
+  .nav ul{display:none}
+}
+
+/* BRAND / LOGO */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-size:18px;
+}
+
+.brand img{
+  width:40px;
+  height:40px;
+  object-fit:cover;
+  border-radius:8px;
+}
+
+.brand img{
+  transition:.3s;
+}
+
+.brand:hover img{
+  transform:scale(1.1);
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="nav">
+  <div class="brand">
+  <img src="img/logo.jr.png" alt="Logo">
+  <span>Es Teler JR</span>
+</div>
+  <ul>
+    <li><a href="#home">Home</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#tentang">Tentang</a></li>
+  </ul>
+  <button class="btn" onclick="toggleCart()">
+    Keranjang 🛒 <span id="cartCount" class="cart-badge">0</span>
+  </button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <h1>ES TELER PREMIUM</h1>
+  <p>Fresh • Harga Terjangkau • Berkualitas</p>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="container">
+  <h2>Menu</h2>
+  <div class="grid">
+
+    <div class="card">
+      <img src="esteler.png">
+      <div class="card-content">
+        <h3>Es Teler</h3>
+        <p class="price">Rp 7.000</p>
+        <button class="btn" onclick="addToCart('Es Teler',7000)">Tambah</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="esbuah.png">
+      <div class="card-content">
+        <h3>Es Buah</h3>
+        <p class="price">Rp 6.000</p>
+        <button class="btn" onclick="addToCart('Es Buah',6000)">Tambah</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="jusbuah.png">
+      <div class="card-content">
+        <h3>Jus Buah</h3>
+        <p class="price">Rp 7.000</p>
+        <button class="btn" onclick="addToCart('Jus Buah',7000)">Tambah</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TENTANG -->
+<section id="tentang" class="container">
+  <h2>Tentang Kami</h2>
+  <div class="about">
+    <div>
+      <p>Kami menyediakan es teler segar dengan bahan terbaik.</p>
+      <p>Harga terjangkau dan rasa premium.</p>
+    </div>
+    <div>
+      <h3>📍 Alamat</h3>
+      <p>Jl. Protokol, Ds. Panggungrejo, Kec. Panggungrejo, Kab. Blitar</p>
+      <p>🕒 Buka Setiap Hari: 10.00 - 21.00 WIB</p>
+      <p>
+        <a href="https://wa.me/6285536530711" target="_blank" style="color:var(--green2);text-decoration:none;">
+          <i class="fa-brands fa-whatsapp"></i> 0855-3653-0711
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CART -->
+<div class="cart-panel" id="cartPanel">
+  <button class="btn" onclick="toggleCart()">← Kembali</button>
+  <h3>Keranjang</h3>
+  <div id="cartItems"></div>
+  <h4>Total: Rp <span id="total">0</span></h4>
+  <button class="btn" onclick="sendWhatsApp()">Pesan via WhatsApp</button>
+</div>
+
+<!-- FLOAT WA -->
+<div class="wa-container">
+  <a href="https://wa.me/6285536530711" target="_blank" class="wa-float">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+</div>
+
+<footer>
+  <p>© 2026 Es Teler JR</p>
+</footer>
+
+<script>
+function formatRupiah(angka){
+  return angka.toLocaleString("id-ID");
+}
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function toggleCart(){
+  document.getElementById("cartPanel").classList.toggle("active");
+}
+
+function addToCart(name, price){
+  let item = cart.find(i => i.name === name);
+  if(item){
+    item.qty++;
+  }else{
+    cart.push({name, price, qty:1});
+  }
+  saveCart();
+  toggleCart();
+}
+
+function saveCart(){
+  localStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function renderCart(){
+  const container = document.getElementById("cartItems");
+  const totalEl = document.getElementById("total");
+  const countEl = document.getElementById("cartCount");
+
+  container.innerHTML = "";
+  let total = 0;
+  let count = 0;
+
+  cart.forEach((item,index)=>{
+    let subtotal = item.price * item.qty;
+    total += subtotal;
+    count += item.qty;
+
+    container.innerHTML += `
+      <div class="cart-item">
+        <b>${item.name}</b><br>
+        Rp ${formatRupiah(item.price)} x ${item.qty}<br>
+        Subtotal: Rp ${formatRupiah(subtotal)}<br>
+        <button onclick="changeQty(${index},1)">+</button>
+        <button onclick="changeQty(${index},-1)">-</button>
+        <button onclick="removeItem(${index})">Hapus</button>
+      </div>
+    `;
+  });
+
+  totalEl.textContent = formatRupiah(total);
+  countEl.textContent = count;
+}
+
+function changeQty(index, delta){
+  cart[index].qty += delta;
+  if(cart[index].qty <= 0){
+    cart.splice(index,1);
+  }
+  saveCart();
+}
+
+function removeItem(index){
+  cart.splice(index,1);
+  saveCart();
+}
+
+function sendWhatsApp(){
+  if(cart.length === 0){
+    alert("Keranjang kosong!");
+    return;
+  }
+
+  let message = "Halo, saya ingin pesan:%0A%0A";
+  let total = 0;
+
+  cart.forEach(item=>{
+    let subtotal = item.price * item.qty;
+    total += subtotal;
+
+    message += `• ${item.name}%0A`;
+    message += `  Harga: Rp ${formatRupiah(item.price)}%0A`;
+    message += `  Jumlah: ${item.qty}%0A`;
+    message += `  Subtotal: Rp ${formatRupiah(subtotal)}%0A%0A`;
+  });
+
+  message += `TOTAL: Rp ${formatRupiah(total)}`;
+
+  window.open(`https://wa.me/6285536530711?text=${message}`);
+
+  cart = [];
+  localStorage.removeItem("cart");
+  renderCart();
+  toggleCart();
+}
+
+renderCart();
+</script>
+
+</body>
+</html>
