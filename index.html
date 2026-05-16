@@ -694,11 +694,7 @@ function renderCart(){
         <b>${item.name}</b><br>
         Rp ${formatRupiah(item.price)} x ${item.qty}<br>
 
-        <textarea 
-          placeholder="Tambahkan catatan..." 
-          onchange="updateNote(${index}, this.value)"
-          class="cart-note"
-        >${item.note || ""}</textarea>
+        <textarea id="customerComment" placeholder="Tulis komentar Anda... (opsional)"></textarea>
 
         Subtotal: Rp ${formatRupiah(subtotal)}<br>
 
@@ -790,20 +786,22 @@ function submitReview(){
   const name = document.getElementById("customerName").value.trim();
   const comment = document.getElementById("customerComment").value.trim();
 
-  if(!name || !comment || selectedRating === 0){
-    alert("Lengkapi nama, rating, dan komentar!");
+  /* Nama & rating wajib, komentar opsional */
+  if(!name || selectedRating === 0){
+    alert("Nama dan rating wajib diisi!");
     return;
   }
 
   reviews.push({
     name,
-    comment,
+    comment: comment || "-", /* jika kosong tampilkan strip */
     rating:selectedRating,
     date:new Date().toLocaleDateString("id-ID")
   });
 
   localStorage.setItem("reviews", JSON.stringify(reviews));
 
+  /* Reset form */
   document.getElementById("customerName").value = "";
   document.getElementById("customerComment").value = "";
   selectedRating = 0;
