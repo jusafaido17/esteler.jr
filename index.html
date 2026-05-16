@@ -657,7 +657,7 @@ function adminLogin(){
   if(password === "admin2121"){
     window.isAdmin = true;
     alert("Mode admin aktif!");
-    renderReviews();
+    window.renderReviews();
   }else{
     alert("Password salah!");
   }
@@ -888,7 +888,7 @@ stars.forEach(star=>{
 window.deleteReview = async function(id){
   if(confirm("Hapus review ini?")){
     await deleteDoc(doc(db,"reviews",id));
-    renderReviews();
+    window.renderReviews();
   }
 };
 
