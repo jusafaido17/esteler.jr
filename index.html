@@ -895,6 +895,13 @@ window.submitReview = async function(){
     return;
   }
 
+window.deleteReview = async function(id){
+  if(confirm("Hapus review ini?")){
+    await deleteDoc(doc(db,"reviews",id));
+    renderReviews();
+  }
+};
+
   await addDoc(collection(db,"reviews"),{
     name,
     comment: comment || "-",
