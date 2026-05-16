@@ -649,13 +649,13 @@ function formatRupiah(angka){
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 /* ADMIN MODE */
-let isAdmin = false;
+window.isAdmin = false;
 
 function adminLogin(){
   const password = prompt("Masukkan password admin:");
 
   if(password === "admin2121"){
-    isAdmin = true;
+    window.isAdmin = true;
     alert("Mode admin aktif!");
     renderReviews();
   }else{
@@ -791,7 +791,6 @@ function sendWhatsApp(){
 /* REVIEW */
 
 renderCart();
-renderReviews();
 
 function showPopIceMenu(){
   const flavors = [
@@ -886,6 +885,13 @@ stars.forEach(star=>{
   });
 });
 
+window.deleteReview = async function(id){
+  if(confirm("Hapus review ini?")){
+    await deleteDoc(doc(db,"reviews",id));
+    renderReviews();
+  }
+};
+
 window.submitReview = async function(){
   const name = document.getElementById("customerName").value.trim();
   const comment = document.getElementById("customerComment").value.trim();
@@ -894,13 +900,6 @@ window.submitReview = async function(){
     alert("Nama dan rating wajib diisi!");
     return;
   }
-
-window.deleteReview = async function(id){
-  if(confirm("Hapus review ini?")){
-    await deleteDoc(doc(db,"reviews",id));
-    renderReviews();
-  }
-};
 
   await addDoc(collection(db,"reviews"),{
     name,
@@ -956,7 +955,7 @@ async function renderReviews(){
         <div class="rating">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</div>
         <div>${review.comment}</div>
         <div class="date">${review.date}</div>
-        ${isAdmin ? `<button class="delete-review" onclick="deleteReview('${review.id}')">Hapus</button>` : ""}
+        ${window.isAdmin ? `<button class="delete-review" onclick="deleteReview('${review.id}')">Hapus</button>` : ""}
       </div>
     `;
   });
