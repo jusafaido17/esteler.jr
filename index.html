@@ -441,7 +441,7 @@ body{
 /* FOOTER */
 footer{
   text-align:center;
-  padding:18px 10px;
+  padding:30px 10px;
   background:var(--green1);
   color:white;
 }
@@ -452,15 +452,11 @@ footer p{
   font-weight:500;
 }
 
-/* MOBILE */
+/* RESPONSIVE */
 @media(max-width:768px){
-  footer{
-    padding:14px 8px;
-  }
-
-  footer p{
-    font-size:13px;
-  }
+  .grid{grid-template-columns:1fr;}
+  .about{grid-template-columns:1fr;}
+  .nav ul{display:none;}
 }
 </style>
 </head>
@@ -825,6 +821,46 @@ function deleteReview(index){
   }
 }
 
+function renderReviews(){
+  const reviewList = document.getElementById("reviewList");
+  const avgEl = document.getElementById("averageRating");
+  const totalEl = document.getElementById("totalReviews");
+
+  reviewList.innerHTML = "";
+
+  if(reviews.length === 0){
+    avgEl.textContent = "0.0";
+    totalEl.textContent = "0";
+    reviewList.innerHTML = "<p>Belum ada review.</p>";
+    return;
+  }
+
+  let totalRating = 0;
+
+  reviews.slice().reverse().forEach((review,reverseIndex)=>{
+    totalRating += review.rating;
+    let originalIndex = reviews.length - 1 - reverseIndex;
+
+    reviewList.innerHTML += `
+      <div class="review-item">
+        <div class="name">${review.name}</div>
+        <div class="rating">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</div>
+        <div>${review.comment}</div>
+        <div class="date">${review.date}</div>
+        <button class="delete-review" onclick="deleteReview(${originalIndex})">Hapus</button>
+      </div>
+    `;
+  });
+
+  let average = (totalRating / reviews.length).toFixed(1);
+
+  avgEl.textContent = average;
+  totalEl.textContent = reviews.length;
+}
+
+renderCart();
+renderReviews();
+
 function showPopIceMenu(){
   const flavors = [
     "Coklat",
@@ -874,46 +910,6 @@ function showPopIceMenu(){
     alert("Pilihan tidak valid!");
   }
 }
-
-function renderReviews(){
-  const reviewList = document.getElementById("reviewList");
-  const avgEl = document.getElementById("averageRating");
-  const totalEl = document.getElementById("totalReviews");
-
-  reviewList.innerHTML = "";
-
-  if(reviews.length === 0){
-    avgEl.textContent = "0.0";
-    totalEl.textContent = "0";
-    reviewList.innerHTML = "<p>Belum ada review.</p>";
-    return;
-  }
-
-  let totalRating = 0;
-
-  reviews.slice().reverse().forEach((review,reverseIndex)=>{
-    totalRating += review.rating;
-    let originalIndex = reviews.length - 1 - reverseIndex;
-
-    reviewList.innerHTML += `
-      <div class="review-item">
-        <div class="name">${review.name}</div>
-        <div class="rating">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</div>
-        <div>${review.comment}</div>
-        <div class="date">${review.date}</div>
-        <button class="delete-review" onclick="deleteReview(${originalIndex})">Hapus</button>
-      </div>
-    `;
-  });
-
-  let average = (totalRating / reviews.length).toFixed(1);
-
-  avgEl.textContent = average;
-  totalEl.textContent = reviews.length;
-}
-
-renderCart();
-renderReviews();
 </script>
 
 </body>
