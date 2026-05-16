@@ -769,96 +769,6 @@ function sendWhatsApp(){
 }
 
 /* REVIEW */
-let selectedRating = 0;
-let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
-
-const stars = document.querySelectorAll("#starRating span");
-
-stars.forEach(star=>{
-  star.addEventListener("click", ()=>{
-    selectedRating = parseInt(star.dataset.value);
-
-    stars.forEach(s=>s.classList.remove("active"));
-
-    for(let i=0; i<selectedRating; i++){
-      stars[i].classList.add("active");
-    }
-  });
-});
-
-function submitReview(){
-  const name = document.getElementById("customerName").value.trim();
-  const comment = document.getElementById("customerComment").value.trim();
-
-  /* Nama & rating wajib, komentar opsional */
-  if(!name || selectedRating === 0){
-    alert("Nama dan rating wajib diisi!");
-    return;
-  }
-
-  reviews.push({
-    name,
-    comment: comment || "-", /* jika kosong tampilkan strip */
-    rating:selectedRating,
-    date:new Date().toLocaleDateString("id-ID")
-  });
-
-  localStorage.setItem("reviews", JSON.stringify(reviews));
-
-  /* Reset form */
-  document.getElementById("customerName").value = "";
-  document.getElementById("customerComment").value = "";
-  selectedRating = 0;
-
-  stars.forEach(s=>s.classList.remove("active"));
-
-  renderReviews();
-}
-
-function deleteReview(index){
-  if(confirm("Hapus review ini?")){
-    reviews.splice(index,1);
-    localStorage.setItem("reviews", JSON.stringify(reviews));
-    renderReviews();
-  }
-}
-
-function renderReviews(){
-  const reviewList = document.getElementById("reviewList");
-  const avgEl = document.getElementById("averageRating");
-  const totalEl = document.getElementById("totalReviews");
-
-  reviewList.innerHTML = "";
-
-  if(reviews.length === 0){
-    avgEl.textContent = "0.0";
-    totalEl.textContent = "0";
-    reviewList.innerHTML = "<p>Belum ada review.</p>";
-    return;
-  }
-
-  let totalRating = 0;
-
-  reviews.slice().reverse().forEach((review,reverseIndex)=>{
-    totalRating += review.rating;
-    let originalIndex = reviews.length - 1 - reverseIndex;
-
-    reviewList.innerHTML += `
-      <div class="review-item">
-        <div class="name">${review.name}</div>
-        <div class="rating">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</div>
-        <div>${review.comment}</div>
-        <div class="date">${review.date}</div>
-        <button class="delete-review" onclick="deleteReview(${originalIndex})">Hapus</button>
-      </div>
-    `;
-  });
-
-  let average = (totalRating / reviews.length).toFixed(1);
-
-  avgEl.textContent = average;
-  totalEl.textContent = reviews.length;
-}
 
 renderCart();
 renderReviews();
@@ -912,6 +822,130 @@ function showPopIceMenu(){
     alert("Pilihan tidak valid!");
   }
 }
+</script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  query,
+  orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCsWx0bPF6ggTbBQ6W0GL_VV3HNqFofJME",
+  authDomain: "es-teler-id.firebaseapp.com",
+  projectId: "es-teler-id",
+  storageBucket: "es-teler-id.firebasestorage.app",
+  messagingSenderId: "135362977999",
+  appId: "1:135362977999:web:db4a6dadb038aea782d7ba",
+  measurementId: "G-E51LN4HN88"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let selectedRating = 0;
+
+const stars = document.querySelectorAll("#starRating span");
+
+stars.forEach(star=>{
+  star.addEventListener("click", ()=>{
+    selectedRating = parseInt(star.dataset.value);
+
+    stars.forEach(s=>s.classList.remove("active"));
+
+    for(let i=0; i<selectedRating; i++){
+      stars[i].classList.add("active");
+    }
+  });
+});
+
+window.submitReview = async function(){
+  const name = document.getElementById("customerName").value.trim();
+  const comment = document.getElementById("customerComment").value.trim();
+
+  if(!name || selectedRating === 0){
+    alert("Nama dan rating wajib diisi!");
+    return;
+  }
+
+  await addDoc(collection(db,"reviews"),{
+    name,
+    comment: comment || "-",
+    rating:selectedRating,
+    date:new Date().toLocaleDateString("id-ID"),
+    createdAt: Date.now()
+  });
+
+  document.getElementById("customerName").value = "";
+  document.getElementById("customerComment").value = "";
+
+  selectedRating = 0;
+  stars.forEach(s=>s.classList.remove("active"));
+
+  renderReviews();
+};
+
+window.deleteReview = async function(id){
+  if(confirm("Hapus review ini?")){
+    await deleteDoc(doc(db,"reviews",id));
+    renderReviews();
+  }
+};
+
+async function renderReviews(){
+  const reviewList = document.getElementById("reviewList");
+  const avgEl = document.getElementById("averageRating");
+  const totalEl = document.getElementById("totalReviews");
+
+  reviewList.innerHTML = "";
+
+  const q = query(collection(db,"reviews"), orderBy("createdAt","desc"));
+  const snapshot = await getDocs(q);
+
+  let reviews = [];
+
+  snapshot.forEach(docSnap=>{
+    reviews.push({
+      id: docSnap.id,
+      ...docSnap.data()
+    });
+  });
+
+  if(reviews.length === 0){
+    avgEl.textContent = "0.0";
+    totalEl.textContent = "0";
+    reviewList.innerHTML = "<p>Belum ada review.</p>";
+    return;
+  }
+
+  let totalRating = 0;
+
+  reviews.forEach(review=>{
+    totalRating += review.rating;
+
+    reviewList.innerHTML += `
+      <div class="review-item">
+        <div class="name">${review.name}</div>
+        <div class="rating">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</div>
+        <div>${review.comment}</div>
+        <div class="date">${review.date}</div>
+        <button class="delete-review" onclick="deleteReview('${review.id}')">Hapus</button>
+      </div>
+    `;
+  });
+
+  avgEl.textContent = (totalRating / reviews.length).toFixed(1);
+  totalEl.textContent = reviews.length;
+}
+
+renderReviews();
 </script>
 
 </body>
