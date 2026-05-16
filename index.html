@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>🍧 Es Teler Seger</title>
+<title>🍧 Es Teler JR</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -11,16 +11,15 @@
 <style>
 :root{
   --bg:#ffffff;
-
   --green1:#14532d;
   --green2:#22c55e;
   --greenSoft:#dcfce7;
-
   --orange1:#ea580c;
   --orange2:#fb923c;
-
   --text:#14532d;
 }
+
+html{scroll-behavior:smooth;}
 
 body{
   margin:0;
@@ -33,27 +32,51 @@ body{
 .nav{
   position:sticky;
   top:0;
+  z-index:1000;
   background:linear-gradient(90deg,var(--green1),var(--green2));
   color:white;
   display:flex;
   justify-content:space-between;
   align-items:center;
   padding:15px 20px;
+  box-shadow:0 4px 15px rgba(20,83,45,.25);
 }
 
 .nav ul{
   display:flex;
   gap:20px;
   list-style:none;
+  padding:0;
+  margin:0;
 }
 
 .nav a{
   color:white;
   text-decoration:none;
+  font-weight:600;
 }
 
-.nav a:hover{
-  opacity:.8;
+.nav a:hover{opacity:.8;}
+
+/* BRAND */
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:700;
+  font-size:18px;
+}
+
+.brand img{
+  width:40px;
+  height:40px;
+  object-fit:cover;
+  border-radius:8px;
+  transition:.3s;
+}
+
+.brand:hover img{
+  transform:scale(1.1);
 }
 
 /* BADGE */
@@ -77,29 +100,34 @@ body{
   transition:all .3s ease;
 }
 
-/* HOVER BUTTON */
 .btn:hover{
   transform:translateY(-3px);
   box-shadow:0 8px 18px rgba(234,88,12,.35);
 }
 
-/* CLICK BUTTON */
 .btn:active{
-  transform:scale(0.95);
+  transform:scale(.95);
 }
 
 /* HERO */
 .hero{
   text-align:center;
-  padding:80px;
+  padding:80px 20px;
   color:white;
-
   background:
     linear-gradient(rgba(20,83,45,.75), rgba(34,197,94,.75)),
     url('img/bg-buah.png');
-
   background-size:cover;
   background-position:center;
+}
+
+.hero h1{
+  font-size:42px;
+  margin-bottom:10px;
+}
+
+.hero p{
+  font-size:18px;
 }
 
 /* CONTAINER */
@@ -109,10 +137,10 @@ body{
   padding:50px 20px;
 }
 
-/* MENU GRID */
+/* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:20px;
 }
 
@@ -134,6 +162,11 @@ body{
   width:100%;
   height:180px;
   object-fit:cover;
+  transition:.3s;
+}
+
+.card:hover img{
+  transform:scale(1.05);
 }
 
 .card-content{
@@ -170,6 +203,7 @@ body{
   transition:.3s;
   padding:20px;
   overflow:auto;
+  z-index:999;
 }
 
 .cart-panel.active{
@@ -183,19 +217,15 @@ body{
   border-radius:8px;
 }
 
-.card img{
-  transition:.3s;
-}
-
-.card:hover img{
-  transform:scale(1.05);
-}
-
-.card img{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:12px;
+.cart-item button{
+  margin-top:5px;
+  margin-right:5px;
+  border:none;
+  padding:5px 8px;
+  border-radius:5px;
+  background:var(--orange1);
+  color:white;
+  cursor:pointer;
 }
 
 /* FLOAT WA */
@@ -215,6 +245,98 @@ body{
   align-items:center;
   justify-content:center;
   font-size:28px;
+  transition:.3s;
+}
+
+.wa-float:hover{
+  transform:scale(1.1);
+  box-shadow:0 8px 20px rgba(34,197,94,.4);
+}
+
+/* REVIEW */
+.review-box{
+  background:var(--greenSoft);
+  padding:20px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+
+.review-box input,
+.review-box textarea{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border:1px solid var(--green2);
+  border-radius:8px;
+  font-family:Poppins;
+  box-sizing:border-box;
+}
+
+.review-box textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.stars{
+  display:flex;
+  gap:8px;
+  font-size:34px;
+  color:#d1d5db;
+  margin-bottom:15px;
+  cursor:pointer;
+}
+
+.stars span{
+  transition:.2s;
+}
+
+.stars span:hover{
+  transform:scale(1.2);
+}
+
+.stars span.active{
+  color:#f59e0b;
+}
+
+.rating-summary{
+  background:white;
+  padding:15px;
+  border-left:4px solid var(--orange1);
+  border-radius:10px;
+  margin-bottom:20px;
+}
+
+.review-item{
+  background:white;
+  border-left:4px solid var(--orange1);
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:8px;
+}
+
+.review-item .name{
+  font-weight:700;
+}
+
+.review-item .rating{
+  color:#f59e0b;
+  margin:6px 0;
+}
+
+.review-item .date{
+  font-size:12px;
+  color:#666;
+  margin-top:8px;
+}
+
+.delete-review{
+  margin-top:10px;
+  background:linear-gradient(90deg,var(--orange1),var(--orange2));
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
 }
 
 /* FOOTER */
@@ -227,33 +349,9 @@ footer{
 
 /* RESPONSIVE */
 @media(max-width:768px){
-  .grid{grid-template-columns:1fr}
-  .about{grid-template-columns:1fr}
-  .nav ul{display:none}
-}
-
-/* BRAND / LOGO */
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-weight:700;
-  font-size:18px;
-}
-
-.brand img{
-  width:40px;
-  height:40px;
-  object-fit:cover;
-  border-radius:8px;
-}
-
-.brand img{
-  transition:.3s;
-}
-
-.brand:hover img{
-  transform:scale(1.1);
+  .grid{grid-template-columns:1fr;}
+  .about{grid-template-columns:1fr;}
+  .nav ul{display:none;}
 }
 </style>
 </head>
@@ -263,14 +361,17 @@ footer{
 <!-- NAVBAR -->
 <div class="nav">
   <div class="brand">
-  <img src="img/logo.jr.png" alt="Logo">
-  <span>Es Teler JR</span>
-</div>
+    <img src="img/logo.jr.png" alt="Logo">
+    <span>Es Teler JR</span>
+  </div>
+
   <ul>
     <li><a href="#home">Home</a></li>
     <li><a href="#menu">Menu</a></li>
     <li><a href="#tentang">Tentang</a></li>
+    <li><a href="#review">Review</a></li>
   </ul>
+
   <button class="btn" onclick="toggleCart()">
     Keranjang 🛒 <span id="cartCount" class="cart-badge">0</span>
   </button>
@@ -288,16 +389,25 @@ footer{
   <div class="grid">
 
     <div class="card">
-      <img src="esteler.png">
+      <img src="esteler.png" alt="Es Teler">
       <div class="card-content">
-        <h3>Es Teler</h3>
+        <h3>Es Teler Biasa</h3>
         <p class="price">Rp 7.000</p>
-        <button class="btn" onclick="addToCart('Es Teler',7000)">Tambah</button>
+        <button class="btn" onclick="addToCart('Es Teler Biasa',7000)">Tambah</button>
       </div>
     </div>
 
     <div class="card">
-      <img src="esbuah.png">
+      <img src="estelerteko.png" alt="Es Teler Teko">
+      <div class="card-content">
+        <h3>Es Teler Teko</h3>
+        <p class="price">Rp 20.000</p>
+        <button class="btn" onclick="addToCart('Es Teler Teko',20000)">Tambah</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="esbuah.png" alt="Es Buah">
       <div class="card-content">
         <h3>Es Buah</h3>
         <p class="price">Rp 6.000</p>
@@ -306,11 +416,20 @@ footer{
     </div>
 
     <div class="card">
-      <img src="jusbuah.png">
+      <img src="jusbuah.png" alt="Jus Buah">
       <div class="card-content">
         <h3>Jus Buah</h3>
         <p class="price">Rp 7.000</p>
         <button class="btn" onclick="addToCart('Jus Buah',7000)">Tambah</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="popice.png" alt="Pop Ice">
+      <div class="card-content">
+        <h3>Pop Ice</h3>
+        <p class="price">Rp 5.000</p>
+        <button class="btn" onclick="addToCart('Pop Ice',5000)">Tambah</button>
       </div>
     </div>
 
@@ -325,6 +444,7 @@ footer{
       <p>Kami menyediakan es teler segar dengan bahan terbaik.</p>
       <p>Harga terjangkau dan rasa premium.</p>
     </div>
+
     <div>
       <h3>📍 Alamat</h3>
       <p>Jl. Protokol, Ds. Panggungrejo, Kec. Panggungrejo, Kab. Blitar</p>
@@ -336,6 +456,34 @@ footer{
       </p>
     </div>
   </div>
+</section>
+
+<!-- REVIEW -->
+<section id="review" class="container">
+  <h2>Rating & Komentar Pelanggan</h2>
+
+  <div class="review-box">
+    <input type="text" id="customerName" placeholder="Nama Anda">
+
+    <div class="stars" id="starRating">
+      <span data-value="1">★</span>
+      <span data-value="2">★</span>
+      <span data-value="3">★</span>
+      <span data-value="4">★</span>
+      <span data-value="5">★</span>
+    </div>
+
+    <textarea id="customerComment" placeholder="Tulis komentar Anda..."></textarea>
+
+    <button class="btn" onclick="submitReview()">Kirim Review</button>
+  </div>
+
+  <div class="rating-summary">
+    <h3>Rata-rata Rating: <span id="averageRating">0.0</span> ⭐</h3>
+    <p>Total Review: <span id="totalReviews">0</span></p>
+  </div>
+
+  <div id="reviewList"></div>
 </section>
 
 <!-- CART -->
@@ -355,7 +503,7 @@ footer{
 </div>
 
 <footer>
-  <p>© 2026 Es Teler JR</p>
+  <p>© 2026 Es Teler JR. All rights reserved.</p>
 </footer>
 
 <script>
@@ -363,6 +511,7 @@ function formatRupiah(angka){
   return angka.toLocaleString("id-ID");
 }
 
+/* CART */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function toggleCart(){
@@ -457,7 +606,98 @@ function sendWhatsApp(){
   toggleCart();
 }
 
+/* REVIEW */
+let selectedRating = 0;
+let reviews = JSON.parse(localStorage.getItem("reviews")) || [];
+
+const stars = document.querySelectorAll("#starRating span");
+
+stars.forEach(star=>{
+  star.addEventListener("click", ()=>{
+    selectedRating = parseInt(star.dataset.value);
+
+    stars.forEach(s=>s.classList.remove("active"));
+
+    for(let i=0; i<selectedRating; i++){
+      stars[i].classList.add("active");
+    }
+  });
+});
+
+function submitReview(){
+  const name = document.getElementById("customerName").value.trim();
+  const comment = document.getElementById("customerComment").value.trim();
+
+  if(!name || !comment || selectedRating === 0){
+    alert("Lengkapi nama, rating, dan komentar!");
+    return;
+  }
+
+  reviews.push({
+    name,
+    comment,
+    rating:selectedRating,
+    date:new Date().toLocaleDateString("id-ID")
+  });
+
+  localStorage.setItem("reviews", JSON.stringify(reviews));
+
+  document.getElementById("customerName").value = "";
+  document.getElementById("customerComment").value = "";
+  selectedRating = 0;
+
+  stars.forEach(s=>s.classList.remove("active"));
+
+  renderReviews();
+}
+
+function deleteReview(index){
+  if(confirm("Hapus review ini?")){
+    reviews.splice(index,1);
+    localStorage.setItem("reviews", JSON.stringify(reviews));
+    renderReviews();
+  }
+}
+
+function renderReviews(){
+  const reviewList = document.getElementById("reviewList");
+  const avgEl = document.getElementById("averageRating");
+  const totalEl = document.getElementById("totalReviews");
+
+  reviewList.innerHTML = "";
+
+  if(reviews.length === 0){
+    avgEl.textContent = "0.0";
+    totalEl.textContent = "0";
+    reviewList.innerHTML = "<p>Belum ada review.</p>";
+    return;
+  }
+
+  let totalRating = 0;
+
+  reviews.slice().reverse().forEach((review,reverseIndex)=>{
+    totalRating += review.rating;
+    let originalIndex = reviews.length - 1 - reverseIndex;
+
+    reviewList.innerHTML += `
+      <div class="review-item">
+        <div class="name">${review.name}</div>
+        <div class="rating">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</div>
+        <div>${review.comment}</div>
+        <div class="date">${review.date}</div>
+        <button class="delete-review" onclick="deleteReview(${originalIndex})">Hapus</button>
+      </div>
+    `;
+  });
+
+  let average = (totalRating / reviews.length).toFixed(1);
+
+  avgEl.textContent = average;
+  totalEl.textContent = reviews.length;
+}
+
 renderCart();
+renderReviews();
 </script>
 
 </body>
