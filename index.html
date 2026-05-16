@@ -604,6 +604,11 @@ footer p{
 
     <!-- HEADER FIXED -->
     <div class="cart-header">
+
+      <button class="btn" onclick="adminLogin()">
+        <i class="fa-solid fa-user-shield"></i> Admin
+      </button>
+
       <button class="btn" onclick="toggleCart()">← Kembali</button>
       <h3>
         Keranjang Saya
@@ -642,6 +647,21 @@ function formatRupiah(angka){
 
 /* CART */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+/* ADMIN MODE */
+let isAdmin = false;
+
+function adminLogin(){
+  const password = prompt("Masukkan password admin:");
+
+  if(password === "admin2121"){
+    isAdmin = true;
+    alert("Mode admin aktif!");
+    renderReviews();
+  }else{
+    alert("Password salah!");
+  }
+}
 
 function toggleCart(){
   document.getElementById("cartPanel").classList.toggle("active");
@@ -892,13 +912,6 @@ window.submitReview = async function(){
   renderReviews();
 };
 
-window.deleteReview = async function(id){
-  if(confirm("Hapus review ini?")){
-    await deleteDoc(doc(db,"reviews",id));
-    renderReviews();
-  }
-};
-
 async function renderReviews(){
   const reviewList = document.getElementById("reviewList");
   const avgEl = document.getElementById("averageRating");
@@ -936,7 +949,7 @@ async function renderReviews(){
         <div class="rating">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</div>
         <div>${review.comment}</div>
         <div class="date">${review.date}</div>
-        <button class="delete-review" onclick="deleteReview('${review.id}')">Hapus</button>
+        ${isAdmin ? `<button class="delete-review" onclick="deleteReview('${review.id}')">Hapus</button>` : ""}
       </div>
     `;
   });
@@ -945,6 +958,7 @@ async function renderReviews(){
   totalEl.textContent = reviews.length;
 }
 
+window.renderReviews = renderReviews;
 renderReviews();
 </script>
 
