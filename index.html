@@ -604,11 +604,6 @@ footer p{
 
     <!-- HEADER FIXED -->
     <div class="cart-header">
-
-      <button class="btn" onclick="adminLogin()">
-        <i class="fa-solid fa-user-shield"></i> Admin
-      </button>
-
       <button class="btn" onclick="toggleCart()">← Kembali</button>
       <h3>
         Keranjang Saya
@@ -647,21 +642,6 @@ function formatRupiah(angka){
 
 /* CART */
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-/* ADMIN MODE */
-window.isAdmin = false;
-
-function adminLogin(){
-  const password = prompt("Masukkan password admin:");
-
-  if(password === "admin2121"){
-    window.isAdmin = true;
-    alert("Mode admin aktif!");
-    window.renderReviews();
-  }else{
-    alert("Password salah!");
-  }
-}
 
 function toggleCart(){
   document.getElementById("cartPanel").classList.toggle("active");
@@ -885,13 +865,6 @@ stars.forEach(star=>{
   });
 });
 
-window.deleteReview = async function(id){
-  if(confirm("Hapus review ini?")){
-    await deleteDoc(doc(db,"reviews",id));
-    window.renderReviews();
-  }
-};
-
 window.submitReview = async function(){
   const name = document.getElementById("customerName").value.trim();
   const comment = document.getElementById("customerComment").value.trim();
@@ -955,7 +928,6 @@ async function renderReviews(){
         <div class="rating">${"★".repeat(review.rating)}${"☆".repeat(5-review.rating)}</div>
         <div>${review.comment}</div>
         <div class="date">${review.date}</div>
-        ${window.isAdmin ? `<button class="delete-review" onclick="deleteReview('${review.id}')">Hapus</button>` : ""}
       </div>
     `;
   });
