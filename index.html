@@ -694,7 +694,11 @@ function renderCart(){
         <b>${item.name}</b><br>
         Rp ${formatRupiah(item.price)} x ${item.qty}<br>
 
-        <textarea id="customerComment" placeholder="Tulis komentar Anda... (opsional)"></textarea>
+        <textarea 
+          placeholder="Tambahkan catatan..." 
+          onchange="updateNote(${index}, this.value)"
+          class="cart-note"
+        >${item.note || ""}</textarea>
 
         Subtotal: Rp ${formatRupiah(subtotal)}<br>
 
